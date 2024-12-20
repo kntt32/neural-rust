@@ -1,6 +1,7 @@
 use std::fmt::{Debug, Display, Error, Formatter};
 use std::iter::Iterator;
 use std::ops::{Add, AddAssign, Index, IndexMut, Mul, MulAssign, Sub, SubAssign};
+use std::cmp::PartialEq;
 
 #[derive(Clone, Debug)]
 pub struct Matrix<T> {
@@ -69,6 +70,12 @@ impl<T> Index<(usize, usize)> for Matrix<T> {
 impl<T> IndexMut<(usize, usize)> for Matrix<T> {
     fn index_mut(&mut self, index: (usize, usize)) -> &mut Self::Output {
         &mut self.vec[index.0 + self.width * index.1]
+    }
+}
+
+impl<T: PartialEq> PartialEq for Matrix<T> {
+    fn eq(&self, other: &Self) -> bool {
+        self.width == other.width && self.height == other.height && self.vec == other.vec
     }
 }
 
