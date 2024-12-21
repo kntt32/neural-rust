@@ -1,19 +1,18 @@
 use neural_rust::matrix::Matrix;
+use neural_rust::neuron::{activate_functions::relu_f32::*, Layer, Model};
 
 fn main() {
-    let mut matrix = Matrix::new(2, 2);
-    matrix[0][0] = 3;
-    matrix[1][0] = 1;
-    matrix[0][1] = 5;
-    matrix[(1, 1)] = 2;
+    let mut nnet: Model<f32> = Model::new();
+    let mut layer: Layer<f32> = Layer::new(2, 1, relu, relu_diff);
 
-    let mut matrix2 = Matrix::new(2, 2);
-    matrix2[0][0] = 1;
-    matrix2[0][1] = 2;
-    matrix2[1][0] = 3;
-    matrix2[1][1] = 4;
-    println!("{}", matrix);
-    println!("{}", matrix2);
-    println!("{}", matrix + &matrix2);
-    //println!("{}", matrix.dot(&matrix2));
+    let weight = Matrix::from([[1.0, 2.0]]);
+    let bias = Matrix::from([[3.0]]);
+
+    layer.set_weight(weight);
+    layer.set_bias(bias);
+    nnet.push(layer);
+
+    let input = Matrix::from([[4.0], [5.0]]);
+
+    println!("{}", nnet.run(input));
 }

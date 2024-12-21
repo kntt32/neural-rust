@@ -14,7 +14,7 @@ fn matrix_dot_test() {
     mat2[1][0] = 7;
     mat2[1][1] = 8;
 
-    let mut dot = Matrix::new(2,2);
+    let mut dot = Matrix::new(2, 2);
     dot[0][0] = 19;
     dot[0][1] = 22;
     dot[1][0] = 43;
@@ -22,4 +22,3 @@ fn matrix_dot_test() {
 
     assert_eq!(mat1.dot(&mat2), dot);
 }
-

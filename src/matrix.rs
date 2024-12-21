@@ -1,7 +1,8 @@
+use std::cmp::PartialEq;
+use std::convert::From;
 use std::fmt::{Debug, Display, Error, Formatter};
 use std::iter::Iterator;
 use std::ops::{Add, AddAssign, Index, IndexMut, Mul, MulAssign, Sub, SubAssign};
-use std::cmp::PartialEq;
 
 #[derive(Clone, Debug)]
 pub struct Matrix<T> {
@@ -200,6 +201,44 @@ impl<T: Display + Debug> Display for Matrix<T> {
         }
         write!(f, "]")?;
         Ok(())
+    }
+}
+
+impl<T: Default + Copy> From<&[&[T]]> for Matrix<T> {
+    fn from(value: &[&[T]]) -> Self {
+        if value.len() == 0 {
+            Matrix::new(0, 0)
+        } else {
+            let width = value[0].len();
+            let height = value.len();
+            let mut matrix = Matrix::new(width, height);
+
+            for y in 0..height {
+                if value[y].len() != width {
+                    panic!("invalid input");
+                }
+
+                for x in 0..width {
+                    matrix[(x, y)] = value[y][x].clone();
+                }
+            }
+
+            matrix
+        }
+    }
+}
+
+impl<const W: usize, const H: usize, T: Default + Copy> From<[[T; W]; H]> for Matrix<T> {
+    fn from(value: [[T; W]; H]) -> Self {
+        let mut matrix = Matrix::new(W, H);
+
+        for y in 0..H {
+            for x in 0..W {
+                matrix[(x, y)] = value[y][x];
+            }
+        }
+
+        matrix
     }
 }
 
