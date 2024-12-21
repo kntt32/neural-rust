@@ -14,5 +14,6 @@ fn main() {
     matrix2[1][1] = 4;
     println!("{}", matrix);
     println!("{}", matrix2);
-    println!("{}", matrix.dot(&matrix2));
+    println!("{}", matrix + &matrix2);
+    //println!("{}", matrix.dot(&matrix2));
 }

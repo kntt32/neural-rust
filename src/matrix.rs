@@ -21,6 +21,16 @@ impl<T: Clone + Default> Matrix<T> {
     }
 }
 
+impl<T> Matrix<T> {
+    pub const fn width(&self) -> usize {
+        self.width
+    }
+
+    pub const fn height(&self) -> usize {
+        self.height
+    }
+}
+
 impl<T: Copy> Matrix<T> {
     pub fn map(&mut self, f: impl Fn((usize, usize), T) -> T) {
         let width = self.width;
